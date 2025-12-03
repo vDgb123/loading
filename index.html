@@ -1,431 +1,346 @@
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>vDgb Projects</title>
     <style>
         body {
-            background: #7c8bfc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-            box-sizing: border-box;
-        }
-
-        .loading-container {
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 25px; 
-            max-height: 95vh; 
-            padding: 10px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: "Courier New", Courier, monospace;
         }
 
-        .text-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .button1 {
+            margin: 0;
+            font-weight: 400;
+            color: black;
+            backdrop-filter: blur(3px);
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+            border-spacing: 20px;
+            font-size: 30px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            padding: 100px 100px;
+            transition: 0.2s;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 10px rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0 20px white, 0 0 20px black;
         }
 
-        .video-wrapper {
-            position: relative; 
-            width: 300px; 
-            height: 533px; 
-            border-radius: 10px; 
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); 
-            overflow: hidden;
-            transition: box-shadow 0.3s;
+        .button1:hover {
+            transform: scale3d(1.2, 1.4, 1.2);
+            backdrop-filter: brightness(1.15);
         }
-        
-        .video-display { 
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            cursor: pointer;
-        }
-        
-        .big-play-pause-icon { 
+
+        .menu-button, .menu-button-2, .menu-button-3, .menu-button-4 {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70px; 
-            height: 70px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
+            left: 30px;
+            display: block;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 10px 10px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            transition: 0.2s;
+            border-radius: 120px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+        
+        .menu-button {
+            top: 30px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+        .menu-button:hover {
+            rotate: 260deg;
+            scale: 1.5;
+        }
+
+        .menu-button-2 {
+            top: 90px;
+        }
+        .menu-button-2:hover {
+            scale: 1.5;
+        }
+
+        .menu-button-3 {
+            top: 150px;
+        }
+        .menu-button-3:hover {
+            scale: 1.5;
+        }
+        
+        .menu-button-4 {
+            top: 210px;
+        }
+        .menu-button-4:hover {
+            scale: 1.5;
+        }
+        
+        .menu-button img, .menu-button-3 img, .menu-button-4 img {
+            display: block;
+            height: 20px;
+            width: 20px;
+        }
+
+        .custom {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            backdrop-filter: blur(5px);
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            color: black;
+            font-size: 20px;
+            padding: 8px 20px;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-shadow: 0 0 10px white, 0 0 10px white;
+        }
+
+        .custom:hover {
+            transform: scale(1.05);
+        }
+
+        .custom-dropdown-container {
+            position: absolute;
+            top: 65px;
+            right: 15px;
+            width: 114px;
+            scale: 1.1;
+            border-radius: 10px;
+            text-shadow: 0 0 10px white, 0 0 10px white;
+        }
+
+        .dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: -36%;
+            width: 116%;
+            list-style: none;
+            padding: 2px 1px;
+            margin-top: 80px;
+            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            display: none;
+            text-align: center;
+            z-index: 1;
+            color: black;
+            text-shadow: 0 0 10px white, 0 0 10px white;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .dropdown-list li:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .glass-navbar {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            display: flex;
+            padding: 5px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
             z-index: 10;
         }
-        
-        .big-play-pause-icon img {
-            width: 100%;
-            height: 100%;
-            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.8));
+
+        .nav-item {
+            color: black;
+            text-decoration: none;
+            padding: 8px 15px;
+            margin: 0 5px;
+            font-size: 20px;
+            font-weight: 1000;
+            transition: 0.3s;
+            border-radius: 15px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 10px rgba(255, 255, 255, 0.7);
         }
 
-        .custom-controls {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 8px 10px; 
-            box-sizing: border-box;
-            background: rgba(255, 255, 255, 0.2); 
-            backdrop-filter: blur(8px); 
-            border-top: 1px solid rgba(255, 255, 255, 0.4); 
-            box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
-            color: black; 
-            display: flex;
-            flex-direction: column;
-            opacity: 0; 
-            transition: opacity 0.3s;
-            z-index: 20; 
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+            border: 1px solid white;
         }
-        
-        .video-wrapper:hover .custom-controls {
-            opacity: 1;
-        }
-        
-        .progress-bar-container {
-            width: 100%;
-            height: 10px; 
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 5px; 
-            cursor: pointer;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .progress-bar { 
-            height: 100%;
-            width: 0%;
-            background: #a855f7; 
-            border-radius: 5px; 
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-        }
-        
-        .scrubber-handle { 
-            width: 12px; 
-            height: 12px;
-            background: white; 
-            border-radius: 50%;
-            box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-            transform: translateX(6px); 
-            cursor: grab;
-            display: none;
-        }
-        
-        .progress-bar-container:hover .scrubber-handle {
-            display: block; 
-        }
-
-        .controls-inner {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            width: 100%;
-        }
-
-        .control-button {
-            background: none;
-            border: none;
-            color: black; 
-            font-size: 14px; 
-            font-weight: bold;
-            cursor: pointer;
-            padding: 3px 5px; 
-            margin-right: 3px;
-            transition: color 0.2s, background-color 0.2s;
-            border-radius: 3px;
-        }
-        
-        .control-button:hover {
-            color: white;
-            background-color: #a855f7; 
-        }
-
-        .time-display { 
-            font-size: 14px; 
-            margin-left: 10px;
-            font-weight: 500;
-            color: #333;
-        }
-
-        span {
-            font-size: 100px; 
-            color: #fff;
-            text-transform: uppercase;
-            display: inline-block;
-            animation: bounce 0.4s ease infinite alternate;
-            position: relative;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        h1 span:nth-child(1) { animation-delay: 0s; }
-        h1 span:nth-child(2) { animation-delay: 0.1s; }
-        h1 span:nth-child(3) { animation-delay: 0.2s; }
-        h1 span:nth-child(4) { animation-delay: 0.3s; }
-
-        @keyframes bounce {
-            0% { top: 0; text-shadow: none; }
-            100% {
-                top: -20px; 
-                text-shadow: 0 1px 0 #999, 0 2px 0 #888, 0 3px 0 #777, 0 4px 0 #666, 0 5px 0 #555;
+    </style>
+    <style>
+        @media (max-width: 600px) {
+            .button1 {
+                padding: 60px 80px;
+                font-size: 28px;
+                box-shadow: 0 0 25px white, 0 0 25px black;
             }
-        }
 
-        #project-text {
-            color: #fff;
-            font-size: 24px; 
-            font-weight: bold;
-            letter-spacing: 5px;
-            margin-top: -15px; 
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            .menu-button {
+                top: 20px;
+                left: 20px;
+                padding: 15px;
+                scale: 1.2;
+            }
+
+            .menu-button-2 {
+                top: 90px;
+                left: 20px;
+                padding: 15px;
+                scale: 1.2;
+            }
+
+            .menu-button-3 {
+                top: 160px;
+                left: 20px;
+                padding: 15px;
+                scale: 1.2;
+            }
+            
+            .menu-button-4 {
+                top: 230px;
+                left: 20px;
+                padding: 15px;
+                scale: 1.2;
+            }
+
+            .glass-navbar {
+                top: 15px;
+                right: 15px;
+                padding: 2px 10px;
+                scale: 1;
+            }
+
+            .nav-item {
+                padding: 5px 8px;
+            }
+
+            .custom-dropdown-container {
+                top: 70px;
+                right: 15px;
+                scale: 1;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="loading-container">
-        <div class="text-container">
-            <h1>
-                <span>V</span>
-                <span>D</span>
-                <span>G</span>
-                <span>B</span>
-            </h1>
-            <div id="project-text">PROJECT</div>
+    <a href="https://guns.lol/vdgb_" target="_blank" class="button1">
+        Gia Bao Space 💞
+    </a>
+    <a href="https://locket.cam/vdgb1805" class="menu-button">
+        <img src="heart.png" height="20px" width="20px">
+    </a>
+    <a href="#" class="menu-button-2">
+        🔇
+    </a>
+    <a href="https://vdgb123.github.io/vdgbsupport.github.io/" class="menu-button-3">
+        <img src="star.png" height="20px" width="20px">
+    </a>
+    <a href="https://vdgb123.github.io/loading/" class="menu-button-4">
+        <img src="mb4.png" height="20px" width="20px">
+    </a>
+    <audio id="myAudio" src="Hẹn Hò Nhưng Không Yêu (Thazh x Đông Remix).mp3" preload="auto"></audio>
+    <div class="custom-dropdown-container">
+        <div class="dropdown-header custom" onclick="toggleDropdown()">
+            <span id="selected-text" data-value="none" data-bg="bruh.jpg">None</span>
         </div>
 
-        <div class="video-wrapper">
-            <video id="video-display-1" class="video-display" autoplay loop muted playsinline> 
-                <source src="speedramp3.mp4" type="video/mp4">
-                Trình duyệt của bạn không hỗ trợ thẻ video.
-            </video>
-
-            <div id="big-play-pause-icon-1" class="big-play-pause-icon">
-                <img id="big-play-pause-img-1" src="play1.png" alt="Play/Pause Icon">
-            </div>
-
-            <div class="custom-controls">
-                <div id="progress-bar-container-1" class="progress-bar-container">
-                    <div id="progress-bar-1" class="progress-bar">
-                        <div id="scrubber-handle-1" class="scrubber-handle"></div>
-                    </div>
-                </div>
-                
-                <div class="controls-inner">
-                    <button class="control-button" id="play-pause-btn-1">PAUSE</button> 
-                    <button class="control-button" id="volume-btn-1">MUTE</button>
-                    <div id="time-display-1" class="time-display">00:00 / 00:00</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="video-wrapper">
-            <video id="video-display-2" class="video-display" autoplay loop muted playsinline> 
-                <source src="speedramp2.mp4" type="video/mp4">
-                Trình duyệt của bạn không hỗ trợ thẻ video.
-            </video>
-
-            <div id="big-play-pause-icon-2" class="big-play-pause-icon">
-                <img id="big-play-pause-img-2" src="play1.png" alt="Play/Pause Icon">
-            </div>
-
-            <div class="custom-controls">
-                <div id="progress-bar-container-2" class="progress-bar-container">
-                    <div id="progress-bar-2" class="progress-bar">
-                        <div id="scrubber-handle-2" class="scrubber-handle"></div>
-                    </div>
-                </div>
-                
-                <div class="controls-inner">
-                    <button class="control-button" id="play-pause-btn-2">PAUSE</button> 
-                    <button class="control-button" id="volume-btn-2">MUTE</button>
-                    <div id="time-display-2" class="time-display">00:00 / 00:00</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="video-wrapper">
-            <video id="video-display-3" class="video-display" autoplay loop muted playsinline> 
-                <source src="speedramp4.mp4" type="video/mp4">
-                Trình duyệt của bạn không hỗ trợ thẻ video.
-            </video>
-
-            <div id="big-play-pause-icon-3" class="big-play-pause-icon">
-                <img id="big-play-pause-img-3" src="play1.png" alt="Play/Pause Icon">
-            </div>
-
-            <div class="custom-controls">
-                <div id="progress-bar-container-3" class="progress-bar-container">
-                    <div id="progress-bar-3" class="progress-bar">
-                        <div id="scrubber-handle-3" class="scrubber-handle"></div>
-                    </div>
-                </div>
-                
-                <div class="controls-inner">
-                    <button class="control-button" id="play-pause-btn-3">PAUSE</button> 
-                    <button class="control-button" id="volume-btn-3">MUTE</button>
-                    <div id="time-display-3" class="time-display">00:00 / 00:00</div>
-                </div>
-            </div>
-        </div>
+        <ul class="dropdown-list" id="dropdown-options">
+            <li data-value="volvo" data-bg="volvo.jpg">Volvo</li>
+            <li data-value="mercedes" data-bg="mercedes.jpg">Mercedes</li>
+            <li data-value="audi" data-bg="audi.jpg">Audi</li>
+            <li data-value="none" data-bg="bruh.jpg">None</li>
+        </ul>
+        <input type="hidden" id="selected-value" name="car" value="none">
     </div>
-
-    <script>
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = Math.floor(seconds % 60);
-            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-        }
-        
-        const players = [];
-        for (let i = 1; i <= 3; i++) {
-            players.push({
-                video: document.getElementById(`video-display-${i}`),
-                playPauseBtn: document.getElementById(`play-pause-btn-${i}`),
-                volumeBtn: document.getElementById(`volume-btn-${i}`),
-                timeDisplay: document.getElementById(`time-display-${i}`),
-                progressBar: document.getElementById(`progress-bar-${i}`),
-                progressBarContainer: document.getElementById(`progress-bar-container-${i}`),
-                scrubberHandle: document.getElementById(`scrubber-handle-${i}`),
-                bigPlayPauseImg: document.getElementById(`big-play-pause-img-${i}`),
-                bigPlayPauseIcon: document.getElementById(`big-play-pause-icon-${i}`),
-                isDragging: false 
-            });
-        }
-
-        players.forEach(player => {
-            const { video, playPauseBtn, volumeBtn, timeDisplay, progressBar, progressBarContainer, scrubberHandle, bigPlayPauseImg, bigPlayPauseIcon } = player;
-
-            const togglePlayPause = () => {
-                if (video.paused || video.ended) {
-                    video.play();
-                } else {
-                    video.pause();
-                }
-            };
-
-            const updatePlayPauseUI = () => {
-                if (video.paused || video.ended) {
-                    playPauseBtn.textContent = 'PLAY'; 
-                    bigPlayPauseImg.src = 'play.png';
-                    bigPlayPauseIcon.style.opacity = '1'; 
-                } else {
-                    playPauseBtn.textContent = 'PAUSE'; 
-                    bigPlayPauseImg.src = 'play1.png';
-                    bigPlayPauseIcon.style.opacity = '0'; 
-                }
-            };
-            
-            const updateProgressBar = () => {
-                if (!player.isDragging && !video.paused) {
-                    const progress = (video.currentTime / video.duration) * 100;
-                    progressBar.style.width = progress + '%';
-                    timeDisplay.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
-                }
-                if (!video.paused) {
-                    requestAnimationFrame(updateProgressBar);
-                }
-            };
-
-            video.addEventListener('click', (e) => {
-                if (!player.isDragging) {
-                    togglePlayPause();
-                }
-            });
-            
-            playPauseBtn.addEventListener('click', togglePlayPause);
-            
-            volumeBtn.addEventListener('click', () => {
-                if (video.muted) {
-                    video.muted = false;
-                    volumeBtn.textContent = 'MUTE'; 
-                } else {
-                    video.muted = true;
-                    volumeBtn.textContent = 'UNMUTE'; 
-                }
-            });
-
-            video.addEventListener('loadedmetadata', () => {
-                timeDisplay.textContent = `00:00 / ${formatTime(video.duration)}`;
-                video.play(); 
-                updatePlayPauseUI(); 
-            });
-            
-            video.addEventListener('play', () => {
-                updatePlayPauseUI();
-                requestAnimationFrame(updateProgressBar);
-            });
-            video.addEventListener('pause', updatePlayPauseUI);
-            video.addEventListener('ended', updatePlayPauseUI);
-
-            scrubberHandle.addEventListener('mousedown', (e) => {
-                player.isDragging = true;
-                video.pause();
-                updatePlayPauseUI();
-                scrubberHandle.style.cursor = 'grabbing';
-                bigPlayPauseIcon.style.opacity = '0';
-            });
-
-            document.addEventListener('mousemove', (e) => {
-                if (!player.isDragging) return;
-
-                const rect = progressBarContainer.getBoundingClientRect();
-                let newX = e.clientX - rect.left;
-
-                if (newX < 0) newX = 0;
-                if (newX > rect.width) newX = rect.width;
-
-                const percentage = newX / rect.width;
-                
-                progressBar.style.width = (percentage * 100) + '%';
-                
-                const newTime = video.duration * percentage;
-                timeDisplay.textContent = `${formatTime(newTime)} / ${formatTime(video.duration)}`;
-            });
-
-            document.addEventListener('mouseup', () => {
-                if (player.isDragging) {
-                    player.isDragging = false;
-                    scrubberHandle.style.cursor = 'grab';
-                    
-                    const percentage = parseFloat(progressBar.style.width) / 100;
-                    
-                    video.currentTime = video.duration * percentage;
-                    video.play(); 
-                    updatePlayPauseUI(); 
-                }
-            });
-
-            progressBarContainer.addEventListener('click', (e) => {
-                if (player.isDragging) return;
-
-                const rect = progressBarContainer.getBoundingClientRect();
-                const clickX = e.clientX - rect.left;
-                const percentage = clickX / rect.width;
-                
-                video.currentTime = video.duration * percentage;
-                video.play();
-                updatePlayPauseUI();
-            });
-            
-            requestAnimationFrame(updateProgressBar);
-
-        }); 
-
-    </script>
+    <nav class="glass-navbar">
+        <a href="https://github.com/vDgb123" class="nav-item"><img src="github.png" height="20px" width="20px"></a>
+        <a href="https://coinmarketcap.com/all/views/all/" class="nav-item"><img src="tiktok.png" height="20px" width="20px"></a>
+        <a href="https://discord.com/users/1044501093486436404" class="nav-item"><img src="dc.png" height="20px" width="20px"></a>
+        <a href="https://open.spotify.com/playlist/37i9dQZF1E4pcdtow1yIdx?si=99xxZZKcQhyyftf43OemMg" class="nav-item"><img src="spotify.png" height="20px" width="20px"></a>
+        <a href="https://www.facebook.com/dogobo1805/" class="nav-item"><img src="fb.png" height="20px" width="20px"></a>
+    </nav>
 </body>
-</html>
+<script>
+    const header = document.querySelector('.dropdown-header');
+    const list = document.getElementById('dropdown-options');
+    const selectedText = document.getElementById('selected-text');
+    const hiddenInput = document.getElementById('selected-value');
+    const body = document.body;
+    const audio = document.getElementById('myAudio');
+    const musicButton = document.querySelector('.menu-button-2');
+    let isPlaying = false;
 
+    function setBackground(imageUrl) {
+        body.style.backgroundImage = `url(${imageUrl})`;
+        body.style.backgroundSize = 'cover';
+        body.style.backgroundRepeat = 'no-repeat';
+        body.style.backgroundAttachment = 'fixed';
+    }
+
+    musicButton.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        if (isPlaying) {
+            audio.pause();
+            musicButton.textContent = '🔇';
+        } else {
+            audio.play();
+            musicButton.textContent = '🔊';
+        }
+        isPlaying = !isPlaying;
+    });
+
+    function toggleDropdown() {
+        list.classList.toggle('show');
+    }
+
+    list.querySelectorAll('li').forEach(item => {
+        item.addEventListener('click', function() {
+            const selectedBg = this.getAttribute('data-bg');
+
+            selectedText.textContent = this.textContent;
+            selectedText.setAttribute('data-value', this.getAttribute('data-value'));
+            selectedText.setAttribute('data-bg', selectedBg);
+            hiddenInput.value = this.getAttribute('data-value');
+            list.classList.remove('show');
+
+            if (selectedBg) {
+                setBackground(selectedBg);
+            }
+        });
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!header.contains(e.target) && !list.contains(e.target)) {
+            list.classList.remove('show');
+        }
+    });
+
+    const defaultBg = selectedText.getAttribute('data-bg');
+    if (defaultBg) {
+        setBackground(defaultBg);
+    }
+</script>
