@@ -1,0 +1,430 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Text</title>
+    <style>
+        body {
+            background: #7c8bfc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+            box-sizing: border-box;
+        }
+
+        .loading-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px; 
+            max-height: 95vh; 
+            padding: 10px;
+        }
+
+        .text-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .video-wrapper {
+            position: relative; 
+            width: 300px; 
+            height: 533px; 
+            border-radius: 10px; 
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); 
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+        }
+        
+        .video-display { 
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        
+        .big-play-pause-icon { 
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px; 
+            height: 70px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+        
+        .big-play-pause-icon img {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.8));
+        }
+
+        .custom-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 8px 10px; 
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.2); 
+            backdrop-filter: blur(8px); 
+            border-top: 1px solid rgba(255, 255, 255, 0.4); 
+            box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+            color: black; 
+            display: flex;
+            flex-direction: column;
+            opacity: 0; 
+            transition: opacity 0.3s;
+            z-index: 20; 
+        }
+        
+        .video-wrapper:hover .custom-controls {
+            opacity: 1;
+        }
+        
+        .progress-bar-container {
+            width: 100%;
+            height: 10px; 
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px; 
+            cursor: pointer;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .progress-bar { 
+            height: 100%;
+            width: 0%;
+            background: #a855f7; 
+            border-radius: 5px; 
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+        
+        .scrubber-handle { 
+            width: 12px; 
+            height: 12px;
+            background: white; 
+            border-radius: 50%;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+            transform: translateX(6px); 
+            cursor: grab;
+            display: none;
+        }
+        
+        .progress-bar-container:hover .scrubber-handle {
+            display: block; 
+        }
+
+        .controls-inner {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            color: black; 
+            font-size: 14px; 
+            font-weight: bold;
+            cursor: pointer;
+            padding: 3px 5px; 
+            margin-right: 3px;
+            transition: color 0.2s, background-color 0.2s;
+            border-radius: 3px;
+        }
+        
+        .control-button:hover {
+            color: white;
+            background-color: #a855f7; 
+        }
+
+        .time-display { 
+            font-size: 14px; 
+            margin-left: 10px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        span {
+            font-size: 100px; 
+            color: #fff;
+            text-transform: uppercase;
+            display: inline-block;
+            animation: bounce 0.4s ease infinite alternate;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1 span:nth-child(1) { animation-delay: 0s; }
+        h1 span:nth-child(2) { animation-delay: 0.1s; }
+        h1 span:nth-child(3) { animation-delay: 0.2s; }
+        h1 span:nth-child(4) { animation-delay: 0.3s; }
+
+        @keyframes bounce {
+            0% { top: 0; text-shadow: none; }
+            100% {
+                top: -20px; 
+                text-shadow: 0 1px 0 #999, 0 2px 0 #888, 0 3px 0 #777, 0 4px 0 #666, 0 5px 0 #555;
+            }
+        }
+
+        #project-text {
+            color: #fff;
+            font-size: 24px; 
+            font-weight: bold;
+            letter-spacing: 5px;
+            margin-top: -15px; 
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="text-container">
+            <h1>
+                <span>V</span>
+                <span>D</span>
+                <span>G</span>
+                <span>B</span>
+            </h1>
+            <div id="project-text">PROJECT</div>
+        </div>
+
+        <div class="video-wrapper">
+            <video id="video-display-1" class="video-display" autoplay loop muted playsinline> 
+                <source src="speedramp3.mp4" type="video/mp4">
+                Trình duyệt của bạn không hỗ trợ thẻ video.
+            </video>
+
+            <div id="big-play-pause-icon-1" class="big-play-pause-icon">
+                <img id="big-play-pause-img-1" src="play1.png" alt="Play/Pause Icon">
+            </div>
+
+            <div class="custom-controls">
+                <div id="progress-bar-container-1" class="progress-bar-container">
+                    <div id="progress-bar-1" class="progress-bar">
+                        <div id="scrubber-handle-1" class="scrubber-handle"></div>
+                    </div>
+                </div>
+                
+                <div class="controls-inner">
+                    <button class="control-button" id="play-pause-btn-1">PAUSE</button> 
+                    <button class="control-button" id="volume-btn-1">MUTE</button>
+                    <div id="time-display-1" class="time-display">00:00 / 00:00</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-wrapper">
+            <video id="video-display-2" class="video-display" autoplay loop muted playsinline> 
+                <source src="speedramp2.mp4" type="video/mp4">
+                Trình duyệt của bạn không hỗ trợ thẻ video.
+            </video>
+
+            <div id="big-play-pause-icon-2" class="big-play-pause-icon">
+                <img id="big-play-pause-img-2" src="play1.png" alt="Play/Pause Icon">
+            </div>
+
+            <div class="custom-controls">
+                <div id="progress-bar-container-2" class="progress-bar-container">
+                    <div id="progress-bar-2" class="progress-bar">
+                        <div id="scrubber-handle-2" class="scrubber-handle"></div>
+                    </div>
+                </div>
+                
+                <div class="controls-inner">
+                    <button class="control-button" id="play-pause-btn-2">PAUSE</button> 
+                    <button class="control-button" id="volume-btn-2">MUTE</button>
+                    <div id="time-display-2" class="time-display">00:00 / 00:00</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-wrapper">
+            <video id="video-display-3" class="video-display" autoplay loop muted playsinline> 
+                <source src="speedramp4.mp4" type="video/mp4">
+                Trình duyệt của bạn không hỗ trợ thẻ video.
+            </video>
+
+            <div id="big-play-pause-icon-3" class="big-play-pause-icon">
+                <img id="big-play-pause-img-3" src="play1.png" alt="Play/Pause Icon">
+            </div>
+
+            <div class="custom-controls">
+                <div id="progress-bar-container-3" class="progress-bar-container">
+                    <div id="progress-bar-3" class="progress-bar">
+                        <div id="scrubber-handle-3" class="scrubber-handle"></div>
+                    </div>
+                </div>
+                
+                <div class="controls-inner">
+                    <button class="control-button" id="play-pause-btn-3">PAUSE</button> 
+                    <button class="control-button" id="volume-btn-3">MUTE</button>
+                    <div id="time-display-3" class="time-display">00:00 / 00:00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+        
+        const players = [];
+        for (let i = 1; i <= 3; i++) {
+            players.push({
+                video: document.getElementById(`video-display-${i}`),
+                playPauseBtn: document.getElementById(`play-pause-btn-${i}`),
+                volumeBtn: document.getElementById(`volume-btn-${i}`),
+                timeDisplay: document.getElementById(`time-display-${i}`),
+                progressBar: document.getElementById(`progress-bar-${i}`),
+                progressBarContainer: document.getElementById(`progress-bar-container-${i}`),
+                scrubberHandle: document.getElementById(`scrubber-handle-${i}`),
+                bigPlayPauseImg: document.getElementById(`big-play-pause-img-${i}`),
+                bigPlayPauseIcon: document.getElementById(`big-play-pause-icon-${i}`),
+                isDragging: false 
+            });
+        }
+
+        players.forEach(player => {
+            const { video, playPauseBtn, volumeBtn, timeDisplay, progressBar, progressBarContainer, scrubberHandle, bigPlayPauseImg, bigPlayPauseIcon } = player;
+
+            const togglePlayPause = () => {
+                if (video.paused || video.ended) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            };
+
+            const updatePlayPauseUI = () => {
+                if (video.paused || video.ended) {
+                    playPauseBtn.textContent = 'PLAY'; 
+                    bigPlayPauseImg.src = 'play.png';
+                    bigPlayPauseIcon.style.opacity = '1'; 
+                } else {
+                    playPauseBtn.textContent = 'PAUSE'; 
+                    bigPlayPauseImg.src = 'play1.png';
+                    bigPlayPauseIcon.style.opacity = '0'; 
+                }
+            };
+            
+            const updateProgressBar = () => {
+                if (!player.isDragging && !video.paused) {
+                    const progress = (video.currentTime / video.duration) * 100;
+                    progressBar.style.width = progress + '%';
+                    timeDisplay.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
+                }
+                if (!video.paused) {
+                    requestAnimationFrame(updateProgressBar);
+                }
+            };
+
+            video.addEventListener('click', (e) => {
+                if (!player.isDragging) {
+                    togglePlayPause();
+                }
+            });
+            
+            playPauseBtn.addEventListener('click', togglePlayPause);
+            
+            volumeBtn.addEventListener('click', () => {
+                if (video.muted) {
+                    video.muted = false;
+                    volumeBtn.textContent = 'MUTE'; 
+                } else {
+                    video.muted = true;
+                    volumeBtn.textContent = 'UNMUTE'; 
+                }
+            });
+
+            video.addEventListener('loadedmetadata', () => {
+                timeDisplay.textContent = `00:00 / ${formatTime(video.duration)}`;
+                video.play(); 
+                updatePlayPauseUI(); 
+            });
+            
+            video.addEventListener('play', () => {
+                updatePlayPauseUI();
+                requestAnimationFrame(updateProgressBar);
+            });
+            video.addEventListener('pause', updatePlayPauseUI);
+            video.addEventListener('ended', updatePlayPauseUI);
+
+            scrubberHandle.addEventListener('mousedown', (e) => {
+                player.isDragging = true;
+                video.pause();
+                updatePlayPauseUI();
+                scrubberHandle.style.cursor = 'grabbing';
+                bigPlayPauseIcon.style.opacity = '0';
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!player.isDragging) return;
+
+                const rect = progressBarContainer.getBoundingClientRect();
+                let newX = e.clientX - rect.left;
+
+                if (newX < 0) newX = 0;
+                if (newX > rect.width) newX = rect.width;
+
+                const percentage = newX / rect.width;
+                
+                progressBar.style.width = (percentage * 100) + '%';
+                
+                const newTime = video.duration * percentage;
+                timeDisplay.textContent = `${formatTime(newTime)} / ${formatTime(video.duration)}`;
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (player.isDragging) {
+                    player.isDragging = false;
+                    scrubberHandle.style.cursor = 'grab';
+                    
+                    const percentage = parseFloat(progressBar.style.width) / 100;
+                    
+                    video.currentTime = video.duration * percentage;
+                    video.play(); 
+                    updatePlayPauseUI(); 
+                }
+            });
+
+            progressBarContainer.addEventListener('click', (e) => {
+                if (player.isDragging) return;
+
+                const rect = progressBarContainer.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const percentage = clickX / rect.width;
+                
+                video.currentTime = video.duration * percentage;
+                video.play();
+                updatePlayPauseUI();
+            });
+            
+            requestAnimationFrame(updateProgressBar);
+
+        }); 
+
+    </script>
+</body>
+</html>
